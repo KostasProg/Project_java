@@ -11,6 +11,7 @@ abstract public class Entity {
     private String name;
     int x, y;//Kartesios style
     private Image img;
+    private Boolean hostile;
 
     public Entity(int level, String name, Image img) {
         this.level=level;
@@ -21,7 +22,21 @@ abstract public class Entity {
         this.vitality = level * 2;
         this.name = name;
         this.img = img;
+        hostile=false;
     }
+    public Entity(int level, String name, Image img,Boolean hostile) {
+        this.level=level;
+        this.stregth = level * 2;
+        attack = stregth * 2;
+        health_points = vitality * 2 + 10;
+        defense = stregth * 1 + vitality / 2;
+        this.vitality = level * 2;
+        this.name = name;
+        this.img = img;
+        this.hostile=hostile;
+    }
+    public abstract Image attack_effect();
+    public boolean hostile(){return this.hostile;}
 
     public int getStregth() {
         return stregth;

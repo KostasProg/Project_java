@@ -8,12 +8,12 @@ public class Main {
     public Main() {
         frame=new JFrame("make this work");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Dimension size=new Dimension(1000,1000);
+        Dimension size=new Dimension(1200,900);
         frame.setSize(size);
         frame.setMinimumSize(size);
         frame.setMaximumSize(size);
         frame.setResizable(false);
-        Game game=new Game();
+        Game game=new Game(size,"l");
 
 
         frame.add(game);
@@ -26,6 +26,6 @@ public class Main {
     public static void main(String args[]){
         new Main();
         System.out.println("MotherFucker");
-       // new World();
+       //new World();
     }
 }

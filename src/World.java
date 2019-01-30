@@ -1,5 +1,7 @@
 import rpg.Entity;
+import rpg.Warrior;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -11,7 +13,7 @@ public class World {
     private String sworld,sent/*entities*/;
     private char[][] world;
     private String[][] npcs_coor;
-    private WorldLoader damnBro;
+    private WorldLoader worldLoader;
     private File level,level_npcs;
     private int lenx, leny;
     private Vector<Entity> npcs;
@@ -25,7 +27,7 @@ public class World {
     }
 
     public World() {
-        damnBro = new WorldLoader();
+        worldLoader = new WorldLoader();
         //metatroph se pinaka char gia tis syntetagmenes
         toDecart();
         //
@@ -36,7 +38,7 @@ public class World {
 
     public World(File level,File level_npcs) {
         this.level = level;
-        damnBro = new WorldLoader(level,level_npcs);
+        worldLoader = new WorldLoader(level,level_npcs);
         toDecart();
         System.out.println("World Loaded");
     }
@@ -44,18 +46,18 @@ public class World {
     private void toDecart() {
         //length
 
-        sworld = damnBro.extract();
-        sent=damnBro.extract_npcs();
+        sworld = worldLoader.extract();
+        sent=worldLoader.extract_npcs();
         //arxikopoiountai meta to extract
-        lenx = damnBro.getI();
+        lenx = worldLoader.getI();
         System.out.println("what" + lenx);
-        leny = damnBro.getJ();
+        leny = worldLoader.getJ();
         System.out.println("what" + leny);
         //System.out.println(sworld);
-        //System.out.println(damnBro.getI()+damnBro.getJ()+"");
+        //System.out.println(worldLoader.getI()+worldLoader.getJ()+"");
 
-        world = new char[damnBro.getI()][damnBro.getJ()];
-        npcs_coor =  new String[damnBro.getI()][damnBro.getJ()];
+        world = new char[worldLoader.getI()][worldLoader.getJ()];
+        npcs_coor =  new String[worldLoader.getI()][worldLoader.getJ()];
         npcs=new Vector<>();
         //WORLD INTIT
         Scanner decart = new Scanner(sworld);
@@ -66,7 +68,7 @@ public class World {
             String x = decart.nextLine();
             x = x.replaceAll("-", "");
             System.out.println("->" + x);
-            for (int z = 0; z < damnBro.getI(); z++) {
+            for (int z = 0; z < worldLoader.getI(); z++) {
                 //System.out.println(z);
                 // if(lenx==10 && leny==9){world[z][y] = x.charAt(z);}
                 world[z][y] = x.charAt(z);
@@ -75,7 +77,27 @@ public class World {
             y++;
         }
         //ENTITIES INIT
+        decart = new Scanner(sent);
 
+        decart.nextLine();
+        while (decart.hasNextLine()) {
+        String info=decart.nextLine();
+            System.out.println(info);
+        String stringx=info.substring(2,3);
+            System.out.println(stringx);
+        String stringy=info.substring(4,5);
+            System.out.println(stringy);
+        String type=info.substring(6,7);
+            System.out.println(type);
+            String level=info.substring(7);
+            System.out.println(level);
+            switch (type){
+                case"b":
+                    npcs.addElement(new Warrior(Integer.valueOf(level),"Barbarian",new ImageIcon("resources\\Barbarian_1.png").getImage(),true));
+                    npcs.lastElement().setPosition(Integer.valueOf(stringx),Integer.valueOf(stringy));
+                    break;
+            }
+        }
 
 
 
@@ -84,9 +106,11 @@ public class World {
     public char[][] getWorld() {
         return world;
     }
-    public char[][] getNpcs() {
-        return world;
+
+    public Vector<Entity> getNpcs() {
+        return npcs;
     }
+
     private class WorldLoader {
         private File level,level_npcs;
         private Scanner scanner;
@@ -153,7 +177,7 @@ public class World {
             try {
                 scanner = new Scanner(level_npcs);
                 while (scanner.hasNextLine()) {
-                    x=x+scanner.nextLine();
+                    x=x+"\n"+scanner.nextLine();
 
                 }
                 System.out.println(x);
