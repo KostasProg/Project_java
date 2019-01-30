@@ -69,7 +69,7 @@ abstract public class Entity {
     }
 
     public void die() {
-        this.img = new ImageIcon("C:\\Users\\Anonymous\\IdeaProjects\\Game\\resources\\dead.png").getImage();
+        this.img = new ImageIcon("resources\\dead.png").getImage();
     }
 
     public void battle(Entity e1, Entity e2) {

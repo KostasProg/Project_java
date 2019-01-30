@@ -22,12 +22,13 @@ public class Game extends Canvas implements Runnable {
     int dx, dy;
     int maxX, maxY;
     Warrior player, barb1;
+    int last_i,last_j;//battle go back
 
     public Game() {
 
         dx = 0;
         dy = 0;
-        world = new World(new File("C:\\Users\\Anonymous\\IdeaProjects\\Game\\src\\Level_2.txt"));
+        world = new World(new File("src\\Level_2.txt"),new File("src\\Level_2_npcs.txt"));
         cworld = world.getWorld();
         maxX = world.getLenx();
         maxY = world.getLeny();
@@ -107,16 +108,17 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void collision_enemy() {
-        if(px==barb1.getX() && py==barb1.getY()){
+        //barb1.getX() * 100 - dx * 100, barb1.getY() * 100 - dy * 100
+        if(px==barb1.getX()-dx && py==barb1.getY()-dy){
             player.battle(player,barb1);
         }
     }
 
     public void loadRes() {
-        warrior = new ImageIcon("C:\\Users\\Anonymous\\IdeaProjects\\Game\\resources\\Warrior.png").getImage();
-        grass = new ImageIcon("C:\\Users\\Anonymous\\IdeaProjects\\Game\\resources\\Grass.png").getImage();
-        wall = new ImageIcon("C:\\Users\\Anonymous\\IdeaProjects\\Game\\resources\\Wall.png").getImage();
-        barbarian = new ImageIcon("C:\\Users\\Anonymous\\IdeaProjects\\Game\\resources\\Barbarian_1.png").getImage();
+        warrior = new ImageIcon("resources\\Warrior.png").getImage();
+        grass = new ImageIcon("resources\\Grass.png").getImage();
+        wall = new ImageIcon("resources\\Wall.png").getImage();
+        barbarian = new ImageIcon("resources\\Barbarian_1.png").getImage();
     }
 
     public void loadPlayers() {
@@ -157,7 +159,7 @@ public class Game extends Canvas implements Runnable {
                 switch (enemies[x + dx][y + dy]) {
 
                     case "b":
-                        g.drawImage(barbarian, barb1.getX() * 100 - dx * 100, barb1.getY() * 100 - dy * 100, this);
+                        g.drawImage(barb1.getImg(), barb1.getX() * 100 - dx * 100, barb1.getY() * 100 - dy * 100, this);
                         break;
 
 

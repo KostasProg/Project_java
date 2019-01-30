@@ -9,11 +9,6 @@ public class Warrior extends Entity {
         super(level, name, img);
         setStregth(getStregth()+1);
     }
-    @Override //No reason forgot i had one in the motherclass
-    public void setPosition(int x,int y){
-        super.x=x;
-        super.y=y;
 
-    }
 
 }
